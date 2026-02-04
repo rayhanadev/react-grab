@@ -112,4 +112,18 @@ const libraryBuildConfig: Options = {
   ],
 };
 
-export default defineConfig([browserBuildConfig, libraryBuildConfig]);
+// Vite plugin build configuration - node platform, no solid JSX
+const viteBuildConfig: Options = {
+  ...DEFAULT_OPTIONS,
+  clean: false,
+  entry: ["./src/vite/index.ts"],
+  external: ["vite", "magic-string"],
+  format: ["cjs", "esm"],
+  noExternal: [], // Don't bundle any dependencies for the Vite plugin
+  outDir: "./dist",
+  platform: "node",
+  splitting: false,
+  // No babel plugin needed - pure TypeScript
+};
+
+export default defineConfig([browserBuildConfig, libraryBuildConfig, viteBuildConfig]);

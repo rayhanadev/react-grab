@@ -1,13 +1,20 @@
 {
   "name": "react-grab",
-  "version": "0.1.5",
-  "description": "Select context for coding agents directly from your website",
+  "version": "0.2.0",
+  "description": "Universal source inspector for Vite - click any element to open its source in your editor",
   "keywords": [
     "agent",
     "context",
     "grab",
     "react",
-    "react-grab"
+    "react-grab",
+    "vite",
+    "vue",
+    "svelte",
+    "solid",
+    "source-inspector",
+    "click-to-source",
+    "devtools"
   ],
   "homepage": "https://react-grab.com",
   "bugs": {
@@ -55,6 +62,16 @@
         "default": "./dist/core/index.cjs"
       }
     },
+    "./vite": {
+      "import": {
+        "types": "./dist/vite/index.d.ts",
+        "default": "./dist/vite/index.js"
+      },
+      "require": {
+        "types": "./dist/vite/index.d.cts",
+        "default": "./dist/vite/index.cjs"
+      }
+    },
     "./src/*": "./src/*",
     "./styles.css": "./dist/styles.css",
     "./dist/styles.css": "./dist/styles.css",
@@ -84,7 +101,16 @@
   },
   "dependencies": {
     "bippy": "^0.5.28",
+    "magic-string": "^0.30.17",
     "solid-js": "^1.9.10"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",

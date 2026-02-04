@@ -19,6 +19,14 @@ import {
 } from "../constants.js";
 import { getTagName } from "../utils/get-tag-name.js";
 
+// Universal source resolution imports
+import {
+  resolveSource,
+  resolveFromDataAttribute,
+  detectElementFramework,
+  type SourceLocation,
+} from "../vite/client/resolve.js";
+
 const NEXT_INTERNAL_COMPONENT_NAMES = new Set([
   "InnerLayoutRouter",
   "RedirectErrorBoundary",
@@ -362,4 +370,38 @@ const getHTMLPreview = (element: Element): string => {
     return `<${tagName}${attrsText}>${content}\n</${tagName}>`;
   }
   return `<${tagName}${attrsText} />`;
+};
+
+/**
+ * Universal source resolution that works across all frameworks.
+ * Uses data-inspector attributes first, then falls back to framework-specific methods.
+ */
+export const getUniversalSourceInfo = (
+  element: Element,
+): SourceLocation | null => {
+  // Try universal resolver which handles all frameworks
+  return resolveSource(element);
+};
+
+/**
+ * Get the detected framework for an element
+ */
+export const getElementFramework = (
+  element: Element,
+): "react" | "vue" | "svelte" | "solid" | "vanilla" | null => {
+  return detectElementFramework(element);
+};
+
+/**
+ * Check if universal source resolution is available for an element
+ */
+export const hasUniversalSourceInfo = (element: Element): boolean => {
+  // Quick check for data-inspector attribute
+  if (element.hasAttribute("data-inspector")) {
+    return true;
+  }
+
+  // Check for framework-specific markers
+  const framework = detectElementFramework(element);
+  return framework !== null;
 };
